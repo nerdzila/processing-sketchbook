@@ -4,7 +4,7 @@
 * Mantener apretado el mouse y moverlo para generar un gusano multicolor
 */
 
-int diameter = 0;
+int wormSize = 0;
 int wormAge = 0;
 int growthRate = 2;
 
@@ -28,7 +28,7 @@ void draw() {
   // y salimos, no hay nada más que hacer
   if (!mousePressed) {
     wormAge = 0;
-    diameter = 0;
+    wormSize = 0;
     return;
   }
   
@@ -37,7 +37,7 @@ void draw() {
   
   // Si la edad es un múltiplo de la taza de crecimiento, el "gusano" crece
   if (wormAge % growthRate == 0) {
-    diameter++;
+    wormSize++;
   }
   
   // El matiz del color es una función de la edad
@@ -45,5 +45,5 @@ void draw() {
   stroke(hue, 100, 100);
   
   // Pintamos el círculo
-  ellipse(mouseX, mouseY, diameter, diameter);
+  ellipse(mouseX, mouseY, wormSize, wormSize);
 }
