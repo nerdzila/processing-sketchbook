@@ -6,7 +6,7 @@
 
 int wormSize = 0;
 int wormAge = 0;
-int growthRate = 2;
+float growthRate = 0.7;
 
 color backgroundColor = #000000;
 
@@ -19,6 +19,8 @@ void setup() {
   // Cambiamos el color a Hue/Saturation/Value en una
   // escala de 0 a 100
   colorMode(HSB, 100);
+  
+  strokeWeight(4);
 }
 
 void draw() {
@@ -33,12 +35,9 @@ void draw() {
   }
   
   // Si el mouse está apretado incrementamos la edad de nuestro "gusano"
-  wormAge++;
+  ++wormAge;
   
-  // Si la edad es un múltiplo de la taza de crecimiento, el "gusano" crece
-  if (wormAge % growthRate == 0) {
-    wormSize++;
-  }
+  wormSize = getSize(wormAge);
   
   // El matiz del color es una función de la edad
   hue = wormAge % 100;
@@ -46,4 +45,14 @@ void draw() {
   
   // Pintamos el círculo
   ellipse(mouseX, mouseY, wormSize, wormSize);
+}
+
+int getSize(int wormAge) {
+  float size = wormAge * growthRate;
+  
+  if (size > 100) {
+    size += (size - 100) * (size - 100);
+  }
+  
+  return round(size);
 }
