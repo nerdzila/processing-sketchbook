@@ -6,7 +6,6 @@
 
 int wormSize = 0;
 int wormAge = 0;
-float growthRate = 0.7;
 
 color backgroundColor = #000000;
 
@@ -24,35 +23,31 @@ void setup() {
 }
 
 void draw() {
-  int hue;
-  
-  // Si el mouse no está apretado, reiniciamos los contadores
-  // y salimos, no hay nada más que hacer
-  if (!mousePressed) {
-    wormAge = 0;
-    wormSize = 0;
-    return;
-  }
-  
-  // Si el mouse está apretado incrementamos la edad de nuestro "gusano"
-  ++wormAge;
+  stroke(getHue(wormAge), 100, 100);
   
   wormSize = getSize(wormAge);
-  
-  // El matiz del color es una función de la edad
-  hue = wormAge % 100;
-  stroke(hue, 100, 100);
   
   // Pintamos el círculo
   ellipse(mouseX, mouseY, wormSize, wormSize);
 }
 
-int getSize(int wormAge) {
-  float size = wormAge * growthRate;
+void mouseMoved() {
+  wormAge++;
   
-  if (size > 100) {
-    size += (size - 100) * (size - 100);
+  if (wormAge > 280) {
+    wormAge = 0;
   }
+}
+
+int getSize(int wormAge) {
+  // f(x) = 0.006x^2 + 0.5x
+  float size = wormAge * wormAge;
+  size = size * 0.006;
+  size += 0.2 * wormAge;
   
   return round(size);
+}
+
+int getHue(int wormAge) {
+  return (wormAge * 2) % 100;
 }
